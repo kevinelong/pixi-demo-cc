@@ -1,0 +1,42 @@
+<body style="margin:0"></body>
+<script src="pixi.js"></script>
+<script>
+    const app = new PIXI.Application({
+        width: window.screen.availWidth,
+        height: window.screen.availHeight,
+        backgroundColor: 0xbbbbbb,
+        resolution: window.devicePixelRatio || 1,
+        // antialias: true,    // default: false
+    });
+    document.body.appendChild(app.view);
+    let texture = PIXI.Texture.from('./collagia-logo-placeholder.png');
+    let spriteList = [];
+
+    function addSprite() {
+        let sprite = new PIXI.Sprite(texture);
+        sprite.scale.set(0.2, 0.2)
+        sprite.position.x = 0 + spriteList.length * 66;
+        sprite.position.y = 0;
+        sprite.alpha = 0;
+        spriteList.push(sprite);
+        app.stage.addChild(sprite);
+    }
+
+    for(let a=0;a<12;a++){
+        addSprite()
+    }
+
+    let ticks = 0;
+    app.ticker.add((delta) => {
+        ticks+=delta;
+        if (spriteList[spriteList.length - 1].alpha < 1) {
+            for (let i = 0; i < spriteList.length; i++) {
+                if(ticks > (i+1) * 5) {
+                    const s = spriteList[i];
+                    s.alpha += 0.0125;
+                }
+            }
+        }
+    });
+
+</script>
